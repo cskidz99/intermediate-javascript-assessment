@@ -52,21 +52,21 @@ var foo;
 */
 function async(){
   var deferred = $q.defer();
+  function func(){
+      foo = 'bar';
 
-  if(setTimeout(function(){
-      var foo = 'bar';
-  },500)){
-    return deferred.promise;
-  }
-  return foo;
+  };
+  setTimeout(deferred.resolve(func()), 500);
+  return deferred.promise;
 }
+
 
 // #3  ###################
 // # Context 1
 // Write a function called context1 that takes in 4 parameters: A function called myFn, an object called context, param1, and param2.
 // Invoke myFn explicitly setting the context to the object called context.  Pass in param1 and param2 in order as well.
 function context1(myFn,context,param1,param2){
-  myFn.apply(context,[param1, param2]);
+  return myFn.call(context, param1, param2);
 }
 
 
@@ -76,8 +76,7 @@ function context1(myFn,context,param1,param2){
 // Write a function called context2 that takes in 3 parameters: A function called myFn, an object called context, and an array called params
 // Invoke myFn explicitly setting the context to the object called context.  Pass in params
 function context2(myFn,context,params){
-  var myFn = myFn.call(context)
-  myFn(params);
+  return myFn.apply(context, params)
 }
 
 // #5  ###################
